@@ -1,0 +1,52 @@
+package main
+
+import (
+	"encoding/json"
+	"html/template"
+	"net/http"
+	"path/filepath"
+)
+
+func (app *application) home(w http.ResponseWriter, r *http.Request) {
+
+	files := []string{
+		"../../ui/html/home.page.tmpl",
+		"../../ui/html/base.layout.tmpl",
+		"../../ui/html/footer.partial.tmpl",
+	}
+
+	ts, err := template.ParseFiles(files...)
+	if err != nil {
+		app.errorLog.Println(err.Error())
+		http.Error(w, "Internal Server Error", 500)
+		return
+	}
+
+	err = ts.Execute(w, nil)
+	if err != nil {
+		app.errorLog.Println(err.Error())
+		http.Error(w, "Internal Server Error", 500)
+	}
+}
+
+func (app *application) getAPIContent(url string, templateData interface{}) error {
+	r, err := http.Get(url)
+	if err != nil {
+		return err
+	}
+	defer r.Body.Close()
+
+	// temp := new(models.User)
+
+	if err := json.NewDecoder(r.Body).Decode(templateData); err != nil {
+		app.errorLog.Fatal(err)
+	}
+	app.infoLog.Println(templateData)
+
+	return nil
+}
+
+func (app *application) static(dir string) http.Handler {
+	dirCleaned := filepath.Clean(dir)
+	return http.StripPrefix("/static/", http.FileServer(http.Dir(dirCleaned)))
+}
