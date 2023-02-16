@@ -8,7 +8,7 @@ import (
 	"os"
 	"time"
 
-	"github.com/ericlinsechs/go-mongodb-microservices/users/pkg/models/mongodb"
+	"github.com/ericlinsechs/go-mongodb-microservices/movies/pkg/models/mongodb"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -19,14 +19,14 @@ import (
 type application struct {
 	errorLog *log.Logger
 	infoLog  *log.Logger
-	users    *mongodb.UserModel
+	movies   *mongodb.MovieModel
 }
 
 func main() {
 	// Define command-line flags
 	serverAddr := flag.String("serverAddr", "", "HTTP server network address")
-	serverPort := flag.Int("serverPort", 3000, "HTTP server network port")
-	mongoDatabase := flag.String("mongoDatabase", "users", "Database name")
+	serverPort := flag.Int("serverPort", 3001, "HTTP server network port")
+	mongoDatabase := flag.String("mongoDatabase", "movies", "Database name")
 	// enableCredentials := flag.Bool("enableCredentials", false, "Enable the use of credentials for mongo connection")
 	flag.Parse()
 	flag.PrintDefaults()
@@ -80,8 +80,8 @@ func main() {
 	app := &application{
 		infoLog:  infoLog,
 		errorLog: errorLog,
-		users: &mongodb.UserModel{
-			Collection: client.Database(*mongoDatabase).Collection("users"),
+		movies: &mongodb.MovieModel{
+			Collection: client.Database(*mongoDatabase).Collection("movies"),
 		},
 	}
 

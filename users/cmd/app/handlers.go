@@ -52,15 +52,13 @@ func (app *application) create(c *gin.Context) {
 
 	newUser.TimeStamp = time.Now().Format(time.UnixDate)
 
-	app.infoLog.Printf("New User: %v\n", *newUser)
-
 	// Insert new user
 	insertResult, err := app.users.Insert(newUser)
 	if err != nil {
 		app.serverError(c, err)
 	}
 
-	app.infoLog.Printf("New user have been created, id=%s", insertResult.InsertedID)
+	app.infoLog.Printf("New user have been created, %s", insertResult.InsertedID)
 
 	// Send response back
 	// c.JSON(http.StatusOK, users)
