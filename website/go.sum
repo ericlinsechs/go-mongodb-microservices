@@ -1,8 +1,10 @@
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
-github.com/ericlinsechs/go-mongodb-microservices/users v0.0.0-20230214080106-0f794cc52abb h1:9wuhmsLgen49h/T8+HdMSe/CzIE153cYNTLPxf5zv2E=
-github.com/ericlinsechs/go-mongodb-microservices/users v0.0.0-20230214080106-0f794cc52abb/go.mod h1:9Zs1x49Y4lO6laWmxOflGkeYNApjk/An9x5udeqdg+0=
+github.com/ericlinsechs/go-mongodb-microservices/movies v0.0.0-20230216054829-9efe56e2d86a h1:P/aUJnsdq4AapFmxfDyrIbbCkCvhZnN6bJJXlZVPYMs=
+github.com/ericlinsechs/go-mongodb-microservices/movies v0.0.0-20230216054829-9efe56e2d86a/go.mod h1:TBTwz5pFHRVvVcLN/dpqTElXLsBv1Zxd4+ecQGN3fwo=
+github.com/ericlinsechs/go-mongodb-microservices/users v0.0.0-20230216030627-9533e4081971 h1:E3bi6+NCAXypdKxob786VB+94OncDdfIj8EofkwfOB8=
+github.com/ericlinsechs/go-mongodb-microservices/users v0.0.0-20230216030627-9533e4081971/go.mod h1:g6oO9f8CDTTwt8PnEKW2SMqKYptMFa+E3STfGqfvT20=
 github.com/golang/snappy v0.0.1/go.mod h1:/XxbfmMg8lxefKM7IXC3fBNl/7bRcc72aCRzEWrmP2Q=
 github.com/google/go-cmp v0.5.2 h1:X2ev0eStA3AbceY54o37/0PQ/UWqKEiiO2dKL5OPaFM=
 github.com/google/go-cmp v0.5.2/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=

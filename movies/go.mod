@@ -3,7 +3,6 @@ module github.com/ericlinsechs/go-mongodb-microservices/movies
 go 1.19
 
 require (
-	github.com/ericlinsechs/go-mongodb-microservices/users v0.0.0-20230216030627-9533e4081971
 	github.com/gin-gonic/gin v1.8.2
 	github.com/joho/godotenv v1.5.1
 	go.mongodb.org/mongo-driver v1.11.2

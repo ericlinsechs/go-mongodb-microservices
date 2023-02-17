@@ -54,8 +54,6 @@ func (app *application) usersView(w http.ResponseWriter, r *http.Request) {
 	app.infoLog.Println("Calling users API...")
 	url := fmt.Sprintf("%s%s", app.apis.users, userID)
 
-	app.infoLog.Println(url)
-
 	var utd userTemplateData
 	app.getAPIContent(url, &utd.User)
 	app.infoLog.Println(utd.User)

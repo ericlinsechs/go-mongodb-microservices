@@ -1,9 +1,7 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
 	"net/http"
 	"text/template"
 
@@ -52,22 +50,26 @@ func (app *application) moviesView(w http.ResponseWriter, r *http.Request) {
 
 	// Get movies list from API
 	app.infoLog.Println("Calling movies API...")
-	url := fmt.Sprintf("%s/%s", app.apis.movies, movieID)
+	url := fmt.Sprintf("%s%s", app.apis.movies, movieID)
 
-	resp, err := http.Get(url)
-	if err != nil {
-		fmt.Print(err.Error())
-	}
-	defer resp.Body.Close()
+	var mtd movieTemplateData
+	app.getAPIContent(url, &mtd.Movie)
+	app.infoLog.Println(mtd.Movie)
 
-	bodyBytes, err := ioutil.ReadAll(resp.Body)
-	if err != nil {
-		fmt.Print(err.Error())
-	}
+	// resp, err := http.Get(url)
+	// if err != nil {
+	// 	fmt.Print(err.Error())
+	// }
+	// defer resp.Body.Close()
 
-	var td movieTemplateData
-	json.Unmarshal(bodyBytes, &td.Movie)
-	app.infoLog.Println(td.Movie)
+	// bodyBytes, err := ioutil.ReadAll(resp.Body)
+	// if err != nil {
+	// 	fmt.Print(err.Error())
+	// }
+
+	// var td movieTemplateData
+	// json.Unmarshal(bodyBytes, &td.Movie)
+	// app.infoLog.Println(td.Movie)
 
 	// Load template files
 	files := []string{
@@ -83,7 +85,7 @@ func (app *application) moviesView(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = ts.Execute(w, td.Movie)
+	err = ts.Execute(w, mtd.Movie)
 	if err != nil {
 		app.errorLog.Println(err.Error())
 		http.Error(w, "Internal Server Error", 500)

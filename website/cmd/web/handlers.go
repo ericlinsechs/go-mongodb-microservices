@@ -36,12 +36,10 @@ func (app *application) getAPIContent(url string, templateData interface{}) erro
 	}
 	defer r.Body.Close()
 
-	// temp := new(models.User)
-
 	if err := json.NewDecoder(r.Body).Decode(templateData); err != nil {
 		app.errorLog.Fatal(err)
 	}
-	app.infoLog.Println(templateData)
+	// app.infoLog.Println(templateData)
 
 	return nil
 }
