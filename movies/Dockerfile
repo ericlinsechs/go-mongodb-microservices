@@ -1,4 +1,4 @@
-FROM golang:1.19
+FROM golang:1.19-alpine
 MAINTAINER Eric
 
 WORKDIR /app
@@ -12,23 +12,11 @@ RUN go mod download
 # copy the source code as the last step
 COPY . .
 
-RUN cd ./cmd/app && go build -o /app-movie
+RUN cd ./cmd/app && go build -o /movies-api
 
 EXPOSE 3001
 
-CMD [ "/app-movie" ]
-
-
-# # create workspace
-# WORKDIR /opt/app/
-# COPY go.mod go.sum ./
-
-# # fetch dependancies
-# RUN go mod download && \
-#     go mod verify
-
-# # copy the source code as the last step
-# COPY . .
+CMD [ "/movies-api" ]
 
 
 
