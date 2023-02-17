@@ -1,0 +1,18 @@
+version: "3.8"
+services:
+  movies:
+    # build: ./movies
+    build:
+      context: ./movies
+      dockerfile: Dockerfile
+    networks: 
+      mongoNetwork: {}
+    environment:
+      MONGODB_ATLAS_URI: ""
+    ports:
+      - "3001:3001"
+    container_name: movies-container
+networks:
+  mongoNetwork:
+    driver: bridge
+    name: mongoNetwork

@@ -10,7 +10,6 @@ import (
 
 	"github.com/ericlinsechs/go-mongodb-microservices/movies/pkg/models/mongodb"
 	"github.com/gin-gonic/gin"
-	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
@@ -36,10 +35,10 @@ func main() {
 	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	// load .env file from given path
-	err := godotenv.Load("../../.env")
-	if err != nil {
-		errorLog.Fatalf("Error loading .env file")
-	}
+	// err := godotenv.Load("../../.env")
+	// if err != nil {
+	// 	errorLog.Fatalf("Error loading .env file")
+	// }
 
 	mongodbURI := os.Getenv("MONGODB_ATLAS_URI")
 

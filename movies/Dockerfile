@@ -1,22 +1,28 @@
-FROM golang:1.19-alpine
+# syntax=docker/dockerfile:1
+
+## Build
+FROM golang:1.19-alpine AS build
 MAINTAINER Eric
 
 WORKDIR /app
 
 COPY go.mod ./
 COPY go.sum ./
-
 RUN go mod download
 
-
-# copy the source code as the last step
 COPY . .
 
-RUN cd ./cmd/app && go build -o /movies-api
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /movies-api ./cmd/app
+
+## Deploy
+FROM gcr.io/distroless/base-debian10
+
+# WORKDIR /
+
+COPY --from=build /movies-api /movies-api
 
 EXPOSE 3001
 
-CMD [ "/movies-api" ]
+USER nonroot:nonroot
 
-
-
+ENTRYPOINT ["/movies-api"]
