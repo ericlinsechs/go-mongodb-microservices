@@ -7,11 +7,10 @@ services:
       dockerfile: Dockerfile
     networks: 
       mongoNetwork: {}
-    environment:
-      MONGODB_ATLAS_URI: ""
-    ports:
+    ports: 
       - "3001:3001"
     container_name: movies-container
+    env_file: ./movies/.env
 networks:
   mongoNetwork:
     driver: bridge
