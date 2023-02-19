@@ -26,7 +26,7 @@ func main() {
 	serverAddr := flag.String("serverAddr", "", "HTTP server network address")
 	serverPort := flag.Int("serverPort", 8000, "HTTP server network port")
 	usersAPI := flag.String("usersAPI", "http://localhost:3000/api/users/", "Users API")
-	moviesAPI := flag.String("moviesAPI", "http://localhost:3001/api/movies/", "Movies API")
+	moviesAPI := flag.String("moviesAPI", "http://localhost:3000/api/movies/", "Movies API")
 	flag.Parse()
 
 	// Create logger for writing information and error messages.

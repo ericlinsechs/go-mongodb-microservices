@@ -11,13 +11,13 @@ RUN go mod download
 
 COPY . .
 
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /movies-api ./cmd/app
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o /users-api ./cmd/app
 
 ## Deploy
 FROM gcr.io/distroless/base-debian10
 
-COPY --from=build /movies-api /movies-api
+COPY --from=build /users-api /users-api
 
 USER nonroot:nonroot
 
-ENTRYPOINT ["/movies-api"]
+ENTRYPOINT ["/users-api"]

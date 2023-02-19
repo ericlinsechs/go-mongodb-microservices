@@ -24,7 +24,7 @@ type application struct {
 func main() {
 	// Define command-line flags
 	serverAddr := flag.String("serverAddr", "", "HTTP server network address")
-	serverPort := flag.Int("serverPort", 3001, "HTTP server network port")
+	serverPort := flag.Int("serverPort", 3000, "HTTP server network port")
 	mongoDatabase := flag.String("mongoDatabase", "movies", "Database name")
 	// enableCredentials := flag.Bool("enableCredentials", false, "Enable the use of credentials for mongo connection")
 	flag.Parse()

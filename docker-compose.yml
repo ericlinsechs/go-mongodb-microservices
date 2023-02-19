@@ -7,10 +7,33 @@ services:
       dockerfile: Dockerfile
     networks: 
       mongoNetwork: {}
+    container_name: movies-service
+    env_file: ./.env
+  users:
+    # build: ./users
+    build:
+      context: ./users
+      dockerfile: Dockerfile
+    networks: 
+      mongoNetwork: {}
+    container_name: users-service
+    env_file: ./.env
+  website:
+    # build: ./website
+    build:
+      context: ./website
+      dockerfile: Dockerfile
+    command:
+      - "-usersAPI"
+      - "http://users:3000/api/users/"
+      - "-moviesAPI"
+      - "http://movies:3000/api/movies/"
+    networks: 
+      mongoNetwork: {}
     ports: 
-      - "3001:3001"
-    container_name: movies-container
-    env_file: ./movies/.env
+      - "8000:8000"
+    container_name: website-service
+    env_file: ./.env
 networks:
   mongoNetwork:
     driver: bridge
