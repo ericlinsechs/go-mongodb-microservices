@@ -26,6 +26,7 @@ func main() {
 	serverAddr := flag.String("serverAddr", "", "HTTP server network address")
 	serverPort := flag.Int("serverPort", 3000, "HTTP server network port")
 	mongoDatabase := flag.String("mongoDatabase", "users", "Database name")
+	mongoURI := flag.String("mongoURI", "mongodb://localhost:27017", "Database hostname url")
 	// enableCredentials := flag.Bool("enableCredentials", false, "Enable the use of credentials for mongo connection")
 	flag.Parse()
 	flag.PrintDefaults()
@@ -40,9 +41,9 @@ func main() {
 	// 	errorLog.Fatalf("Error loading .env file")
 	// }
 
-	mongodbURI := os.Getenv("MONGODB_ATLAS_URI")
+	// mongoURI := os.Getenv("MONGODB_ATLAS_URI")
 
-	opts := options.Client().ApplyURI(mongodbURI)
+	opts := options.Client().ApplyURI(*mongoURI)
 	// if *enableCredentials {
 	// 	co.Auth = &options.Credential{
 	// 		Username: os.Getenv("MONGODB_USERNAME"),
