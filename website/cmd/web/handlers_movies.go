@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"net/http"
-	"text/template"
 
 	"github.com/ericlinsechs/go-mongodb-microservices/movies/pkg/models"
+	"github.com/gin-gonic/gin"
 	"github.com/gorilla/mux"
 )
 
@@ -14,7 +14,7 @@ type movieTemplateData struct {
 	Movies []models.Movie
 }
 
-func (app *application) moviesList(w http.ResponseWriter, r *http.Request) {
+func (app *application) moviesList(c *gin.Context) {
 
 	// Get movies list from API
 	var mtd movieTemplateData
@@ -23,27 +23,31 @@ func (app *application) moviesList(w http.ResponseWriter, r *http.Request) {
 	app.infoLog.Println(mtd.Movies)
 
 	// Load template files
-	files := []string{
-		"../../ui/html/movies/list.page.tmpl",
-		"../../ui/html/base.layout.tmpl",
-		"../../ui/html/footer.partial.tmpl",
-	}
+	c.HTML(http.StatusOK, "movies/list", gin.H{
+		"Movies": mtd.Movies,
+	})
 
-	ts, err := template.ParseFiles(files...)
-	if err != nil {
-		app.errorLog.Println(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-		return
-	}
+	// files := []string{
+	// 	"../../ui/html/movies/list.page.tmpl",
+	// 	"../../ui/html/base.layout.tmpl",
+	// 	"../../ui/html/footer.partial.tmpl",
+	// }
 
-	err = ts.Execute(w, mtd)
-	if err != nil {
-		app.errorLog.Println(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-	}
+	// ts, err := template.ParseFiles(files...)
+	// if err != nil {
+	// 	app.errorLog.Println(err.Error())
+	// 	http.Error(w, "Internal Server Error", 500)
+	// 	return
+	// }
+
+	// err = ts.Execute(w, mtd)
+	// if err != nil {
+	// 	app.errorLog.Println(err.Error())
+	// 	http.Error(w, "Internal Server Error", 500)
+	// }
 }
 
-func (app *application) moviesView(w http.ResponseWriter, r *http.Request) {
+func (app *application) moviesView(c *gin.Context) {
 	// Get id from incoming url
 	vars := mux.Vars(r)
 	movieID := vars["id"]
@@ -55,6 +59,11 @@ func (app *application) moviesView(w http.ResponseWriter, r *http.Request) {
 	var mtd movieTemplateData
 	app.getAPIContent(url, &mtd.Movie)
 	app.infoLog.Println(mtd.Movie)
+
+	// Load template files
+	c.HTML(http.StatusOK, "movies/view", gin.H{
+		"Movie": mtd.Movie,
+	})
 
 	// resp, err := http.Get(url)
 	// if err != nil {
@@ -72,22 +81,22 @@ func (app *application) moviesView(w http.ResponseWriter, r *http.Request) {
 	// app.infoLog.Println(td.Movie)
 
 	// Load template files
-	files := []string{
-		"../../ui/html/movies/view.page.tmpl",
-		"../../ui/html/base.layout.tmpl",
-		"../../ui/html/footer.partial.tmpl",
-	}
+	// files := []string{
+	// 	"../../ui/html/movies/view.page.tmpl",
+	// 	"../../ui/html/base.layout.tmpl",
+	// 	"../../ui/html/footer.partial.tmpl",
+	// }
 
-	ts, err := template.ParseFiles(files...)
-	if err != nil {
-		app.errorLog.Println(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-		return
-	}
+	// ts, err := template.ParseFiles(files...)
+	// if err != nil {
+	// 	app.errorLog.Println(err.Error())
+	// 	http.Error(w, "Internal Server Error", 500)
+	// 	return
+	// }
 
-	err = ts.Execute(w, mtd.Movie)
-	if err != nil {
-		app.errorLog.Println(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-	}
+	// err = ts.Execute(w, mtd.Movie)
+	// if err != nil {
+	// 	app.errorLog.Println(err.Error())
+	// 	http.Error(w, "Internal Server Error", 500)
+	// }
 }

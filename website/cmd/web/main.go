@@ -4,9 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"log"
-	"net/http"
 	"os"
-	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 type apis struct {
@@ -31,30 +31,22 @@ func main() {
 
 	// Create logger for writing information and error messages.
 	infoLog := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
-	errLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	errorLog := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
 
 	// Initialize a new instance of application containing the dependencies.
 	app := &application{
 		infoLog:  infoLog,
-		errorLog: errLog,
+		errorLog: errorLog,
 		apis: apis{
 			users:  *usersAPI,
 			movies: *moviesAPI,
 		},
 	}
 
-	// Initialize a new http.Server struct.
 	serverURI := fmt.Sprintf("%s:%d", *serverAddr, *serverPort)
-	srv := &http.Server{
-		Addr:         serverURI,
-		ErrorLog:     errLog,
-		Handler:      app.routes(),
-		IdleTimeout:  time.Minute,
-		ReadTimeout:  5 * time.Second,
-		WriteTimeout: 10 * time.Second,
+	server := gin.Default()
+	server = app.routes(server)
+	if err := server.Run(serverURI); err != nil {
+		errorLog.Fatal(err)
 	}
-
-	infoLog.Printf("Starting server on %s", serverURI)
-	err := srv.ListenAndServe()
-	errLog.Fatal(err)
 }
