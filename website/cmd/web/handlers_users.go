@@ -2,11 +2,10 @@ package main
 
 import (
 	"fmt"
-	"html/template"
 	"net/http"
 
 	"github.com/ericlinsechs/go-mongodb-microservices/users/pkg/models"
-	"github.com/gorilla/mux"
+	"github.com/gin-gonic/gin"
 )
 
 type userTemplateData struct {
@@ -14,7 +13,7 @@ type userTemplateData struct {
 	Users []models.User
 }
 
-func (app *application) usersList(w http.ResponseWriter, r *http.Request) {
+func (app *application) usersList(c *gin.Context) {
 
 	// Get users list from API
 	utd := new(userTemplateData)
@@ -25,30 +24,14 @@ func (app *application) usersList(w http.ResponseWriter, r *http.Request) {
 	app.infoLog.Println(utd.Users)
 
 	// Load template files
-	files := []string{
-		"../../ui/html/users/list.page.tmpl",
-		"../../ui/html/base.layout.tmpl",
-		"../../ui/html/footer.partial.tmpl",
-	}
-
-	ts, err := template.ParseFiles(files...)
-	if err != nil {
-		app.errorLog.Println(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-		return
-	}
-
-	err = ts.Execute(w, utd)
-	if err != nil {
-		app.errorLog.Println(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-	}
+	c.HTML(http.StatusOK, "users/list", gin.H{
+		"Users": utd.Users,
+	})
 }
 
-func (app *application) usersView(w http.ResponseWriter, r *http.Request) {
+func (app *application) usersView(c *gin.Context) {
 	// Get id from incoming url
-	vars := mux.Vars(r)
-	userID := vars["id"]
+	userID := c.Param("id")
 
 	// Get users list from API
 	app.infoLog.Println("Calling users API...")
@@ -59,22 +42,8 @@ func (app *application) usersView(w http.ResponseWriter, r *http.Request) {
 	app.infoLog.Println(utd.User)
 
 	// Load template files
-	files := []string{
-		"../../ui/html/users/view.page.tmpl",
-		"../../ui/html/base.layout.tmpl",
-		"../../ui/html/footer.partial.tmpl",
-	}
-
-	ts, err := template.ParseFiles(files...)
-	if err != nil {
-		app.errorLog.Println(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-		return
-	}
-
-	err = ts.Execute(w, utd.User)
-	if err != nil {
-		app.errorLog.Println(err.Error())
-		http.Error(w, "Internal Server Error", 500)
-	}
+	c.HTML(http.StatusOK, "users/view", gin.H{
+		"Name":     utd.User.Name,
+		"LastName": utd.User.LastName,
+	})
 }

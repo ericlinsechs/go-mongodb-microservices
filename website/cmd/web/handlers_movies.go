@@ -6,7 +6,6 @@ import (
 
 	"github.com/ericlinsechs/go-mongodb-microservices/movies/pkg/models"
 	"github.com/gin-gonic/gin"
-	"github.com/gorilla/mux"
 )
 
 type movieTemplateData struct {
@@ -26,31 +25,11 @@ func (app *application) moviesList(c *gin.Context) {
 	c.HTML(http.StatusOK, "movies/list", gin.H{
 		"Movies": mtd.Movies,
 	})
-
-	// files := []string{
-	// 	"../../ui/html/movies/list.page.tmpl",
-	// 	"../../ui/html/base.layout.tmpl",
-	// 	"../../ui/html/footer.partial.tmpl",
-	// }
-
-	// ts, err := template.ParseFiles(files...)
-	// if err != nil {
-	// 	app.errorLog.Println(err.Error())
-	// 	http.Error(w, "Internal Server Error", 500)
-	// 	return
-	// }
-
-	// err = ts.Execute(w, mtd)
-	// if err != nil {
-	// 	app.errorLog.Println(err.Error())
-	// 	http.Error(w, "Internal Server Error", 500)
-	// }
 }
 
 func (app *application) moviesView(c *gin.Context) {
 	// Get id from incoming url
-	vars := mux.Vars(r)
-	movieID := vars["id"]
+	movieID := c.Param("id")
 
 	// Get movies list from API
 	app.infoLog.Println("Calling movies API...")
@@ -62,41 +41,8 @@ func (app *application) moviesView(c *gin.Context) {
 
 	// Load template files
 	c.HTML(http.StatusOK, "movies/view", gin.H{
-		"Movie": mtd.Movie,
+		"Title":    mtd.Movie.Title,
+		"Director": mtd.Movie.Director,
+		"Rating":   mtd.Movie.Rating,
 	})
-
-	// resp, err := http.Get(url)
-	// if err != nil {
-	// 	fmt.Print(err.Error())
-	// }
-	// defer resp.Body.Close()
-
-	// bodyBytes, err := ioutil.ReadAll(resp.Body)
-	// if err != nil {
-	// 	fmt.Print(err.Error())
-	// }
-
-	// var td movieTemplateData
-	// json.Unmarshal(bodyBytes, &td.Movie)
-	// app.infoLog.Println(td.Movie)
-
-	// Load template files
-	// files := []string{
-	// 	"../../ui/html/movies/view.page.tmpl",
-	// 	"../../ui/html/base.layout.tmpl",
-	// 	"../../ui/html/footer.partial.tmpl",
-	// }
-
-	// ts, err := template.ParseFiles(files...)
-	// if err != nil {
-	// 	app.errorLog.Println(err.Error())
-	// 	http.Error(w, "Internal Server Error", 500)
-	// 	return
-	// }
-
-	// err = ts.Execute(w, mtd.Movie)
-	// if err != nil {
-	// 	app.errorLog.Println(err.Error())
-	// 	http.Error(w, "Internal Server Error", 500)
-	// }
 }
